@@ -21,7 +21,6 @@ namespace SkillManagement.API.Tests
         IUserService service;
 
 
-
         public void InitializeTestData()
         {
             ExpectedUsers = GetUsers();
