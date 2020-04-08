@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using SkillManagement.API.Controllers;
-using SkillManagement.API.Models;
-using SkillManagement.API.Models.Repositories;
+using SkillManagement.API.Core.Models;
+using SkillManagement.API.Core.Repositories;
+using SkillManagement.API.Core.Services;
 using SkillManagement.API.Services;
 
 namespace SkillManagement.API.Tests

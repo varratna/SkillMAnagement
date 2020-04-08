@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using SkillManagement.API.Models;
-using SkillManagement.API.Models.Repositories;
+using SkillManagement.API.Core.Models;
+using SkillManagement.API.Core.Services;
 
 namespace SkillManagement.API.Services
 {

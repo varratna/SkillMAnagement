@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace SkillManagement.API.Models.Repositories
+namespace SkillManagement.API.Core.Repositories
 {
     public interface IGenericRepository<TEntity>
     {

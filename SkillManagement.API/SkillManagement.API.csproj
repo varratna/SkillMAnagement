@@ -26,9 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="LoggingService">
-      <HintPath>..\LoggingService\obj\Debug\netcoreapp2.2\LoggingService.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\LoggingService\SkillManagement.API.Log.csproj" />
+    <ProjectReference Include="..\SkillManagement.API.Core\SkillManagement.API.Core.csproj" />
+    <ProjectReference Include="..\SkillManagement.API.Data\SkillManagement.API.Data.csproj" />
+    <ProjectReference Include="..\SkillManagement.API.Services\SkillManagement.API.Services.csproj" />
   </ItemGroup>
 
 </Project>

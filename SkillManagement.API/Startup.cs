@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using LoggingService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NLog;
+using SkillManagement.API.Core.Services;
+using SkillManagement.API.Data.Repositories;
 using SkillManagement.API.Extensions;
-using SkillManagement.API.Models;
-using SkillManagement.API.Models.Repositories;
+
 using SkillManagement.API.Services;
 
 namespace SkillManagement.API
@@ -49,6 +44,9 @@ namespace SkillManagement.API
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ILoggingService, LogService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<ILevelService, LevelService>();
+            services.AddScoped<IUserSkillLevelService, UserSkillLevelService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

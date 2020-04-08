@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SkillManagement.API.Core.Models;
+using SkillManagement.API.Core.Repositories;
+using SkillManagement.API.Core.Services;
 
-namespace SkillManagement.API.Models.Repositories
+namespace SkillManagement.API.Data.Repositories
 {
     public class UnitOfWork : IUnitOfWork, System.IDisposable
     {

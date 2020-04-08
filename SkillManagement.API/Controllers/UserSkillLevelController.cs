@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LoggingService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SkillManagement.API.Models;
-using SkillManagement.API.Models.Repositories;
-using SkillManagement.API.Services;
+using SkillManagement.API.Core.Models;
+using SkillManagement.API.Core.Services;
 
 namespace SkillManagement.API.Controllers
 {

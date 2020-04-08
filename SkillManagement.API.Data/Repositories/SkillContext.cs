@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SkillManagement.API.Core.Models;
 
-namespace SkillManagement.API.Models
+namespace SkillManagement.API.Data.Repositories
 {
     public class SkillContext : DbContext
     {
@@ -47,7 +48,7 @@ namespace SkillManagement.API.Models
             builder.Entity<UserSkillLevel>().HasOne<User>(p => p.User).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.UserId);
             builder.Entity<UserSkillLevel>().HasOne<Skill>(p => p.Skill).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.SkillId);
             builder.Entity<UserSkillLevel>().HasOne<Level>(p => p.Level).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.LevelId);
-                       
+
             //var allEntities = builder.Model.GetEntityTypes();
 
             //foreach (var entity in allEntities)

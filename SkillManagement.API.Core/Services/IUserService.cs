@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SkillManagement.API.Models;
+﻿using System.Collections.Generic;
+using SkillManagement.API.Core.Models;
 
-namespace SkillManagement.API.Services
+namespace SkillManagement.API.Core.Services
 {
     public interface IUserService
     {

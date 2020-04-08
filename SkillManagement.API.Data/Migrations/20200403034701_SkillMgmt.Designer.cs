@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SkillManagement.API.Models;
+using SkillManagement.API.Data.Repositories;
+
 
 namespace SkillManagement.API.Migrations
 {
