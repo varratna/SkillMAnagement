@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LoggingService;
 using Microsoft.AspNetCore.Mvc;
 using SkillManagement.API.Core.Models;
@@ -101,7 +102,7 @@ namespace SkillManagement.API.Controllers
 
                     if (user.Id > 0)
                     {
-                        return Ok(user.Id);
+                        return Ok(user);
                     }
                     else
                     {
@@ -131,7 +132,7 @@ namespace SkillManagement.API.Controllers
                     _userService.Update(user);
 
 
-                    return Ok();
+                    return Ok(user);
                 }
                 catch (Exception ex)
                 {
@@ -159,7 +160,7 @@ namespace SkillManagement.API.Controllers
                 _userService.Delete(id);
 
 
-                return Ok();
+                return Ok("User with ID " + id +" deleted.");
             }
             catch (Exception ex)
             {
@@ -172,13 +173,14 @@ namespace SkillManagement.API.Controllers
         public bool IsEmailIdPresent(string EmailId)
         {
 
-            var emailPresent = "aa";// _unitOfWork.UserRepository.GetAll().Where(m => m.EmailId == EmailId).FirstOrDefault();
+            var emailPresent = _userService.GetAll().Where(m => m.EmailId == EmailId).FirstOrDefault();
             if (emailPresent != null)
-                return true; // Json("Email already exist", JsonRequestBehavior.AllowGet);
-            return false;// Json(true, JsonRequestBehavior.AllowGet);
+                return true; //Json("Email already exist", JsonRequestBehavior.AllowGet);
+            return false;
 
 
 
         }
+
     }
 }

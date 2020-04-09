@@ -44,7 +44,8 @@ namespace SkillManagement.API.Data.Repositories
             builder.Entity<Level>().Property(p => p.Description).HasMaxLength(100);
 
             builder.Entity<UserSkillLevel>().ToTable("UserSkillLevel");
-            builder.Entity<UserSkillLevel>().HasKey(p => new { p.UserId, p.SkillId, p.LevelId });
+            builder.Entity<UserSkillLevel>().HasKey(p => p.Id);
+            //builder.Entity<UserSkillLevel>().HasKey(p => new { p.UserId, p.SkillId, p.LevelId });
             builder.Entity<UserSkillLevel>().HasOne<User>(p => p.User).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.UserId);
             builder.Entity<UserSkillLevel>().HasOne<Skill>(p => p.Skill).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.SkillId);
             builder.Entity<UserSkillLevel>().HasOne<Level>(p => p.Level).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.LevelId);
@@ -67,8 +68,8 @@ namespace SkillManagement.API.Data.Repositories
             new Skill { Id = 2, SkillName = "Asp.Net core", Description = ".Net" });
 
 
-            builder.Entity<UserSkillLevel>().HasData(new UserSkillLevel { UserId = 1, SkillId = 1, LevelId = 1 },
-            new UserSkillLevel { UserId = 1, SkillId = 2, LevelId = 2 });
+            builder.Entity<UserSkillLevel>().HasData(new UserSkillLevel { Id = 1, UserId = 1, SkillId = 1, LevelId = 1 },
+            new UserSkillLevel { Id = 2,UserId = 1, SkillId = 2, LevelId = 2 });
         }
 
         public override int SaveChanges()

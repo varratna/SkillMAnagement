@@ -40,7 +40,12 @@ namespace SkillManagement.API.Services
 
         public void Update(Skill entity)
         {
-            _unitOfWork.SkillRepository.Update(entity);
+            var skill = _unitOfWork.SkillRepository.Get(entity.Id);
+            skill.SkillName= entity.SkillName;
+            skill.Description = entity.Description;
+            
+
+            _unitOfWork.SkillRepository.Update(skill);
             _unitOfWork.Save();
         }
     }

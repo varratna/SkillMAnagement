@@ -85,7 +85,7 @@ namespace SkillManagement.API.Controllers
 
                     if (level.Id > 0)
                     {
-                        return Ok(level.Id);
+                        return Ok(level);
                     }
                     else
                     {
@@ -113,7 +113,7 @@ namespace SkillManagement.API.Controllers
                 try
                 {
                     _levelService.Update(level);
-                    return Ok();
+                    return Ok(level);
                 }
                 catch (Exception ex)
                 {

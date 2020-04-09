@@ -90,7 +90,7 @@ namespace SkillManagement.API.Controllers
 
                     if (skill.Id > 0)
                     {
-                        return Ok(skill.Id);
+                        return Ok(skill);
                     }
                     else
                     {
@@ -118,7 +118,7 @@ namespace SkillManagement.API.Controllers
                 try
                 {
                     _skillService.Update(skill);
-                    return Ok();
+                    return Ok(skill);
                 }
                 catch (Exception ex)
                 {

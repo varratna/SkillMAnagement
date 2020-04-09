@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LoggingService;
 using Microsoft.AspNetCore.Mvc;
 using SkillManagement.API.Core.Models;
@@ -27,8 +28,8 @@ namespace SkillManagement.API.Controllers
                 //throw new Exception("Exception while fetching all the user from the storage.");
                 _logger.LogInfo("In Get");
 
-                var levels = _userSkillLevelService.GetAll();
-                if (levels == null)
+                var userskillLevel = _userSkillLevelService.GetAll();
+                if (userskillLevel == null)
                 {
                     _logger.LogInfo("No User Skill Level Fetched");
                 }
@@ -37,7 +38,7 @@ namespace SkillManagement.API.Controllers
                     _logger.LogInfo("User Skill Level Fetched");
                 }
 
-                return Ok(levels);
+                return Ok(userskillLevel);
             }
             catch (Exception ex)
             {
@@ -82,11 +83,18 @@ namespace SkillManagement.API.Controllers
             {
                 try
                 {
+                    var userSkillLEvelEXists = _userSkillLevelService.GetAll().Where(m => m.UserId == userSkillLevel.UserId &&
+                    m.SkillId == userSkillLevel.SkillId ).FirstOrDefault();
+                    if (userSkillLEvelEXists != null)
+                    {
+                        return BadRequest("Skill Level for user already exists");
+                    }
+
                     _userSkillLevelService.Add(userSkillLevel);
 
                     if (userSkillLevel.UserId > 0)
                     {
-                        return Ok(userSkillLevel.UserId);
+                        return Ok(userSkillLevel);
                     }
                     else
                     {
@@ -94,16 +102,14 @@ namespace SkillManagement.API.Controllers
                         return BadRequest();
                     }
                 }
+
                 catch (Exception ex)
                 {
                     _logger.LogError(ex.Message);
                     return BadRequest();
                 }
-
             }
-
             return BadRequest();
-
         }
 
         [HttpPut]
@@ -114,7 +120,7 @@ namespace SkillManagement.API.Controllers
                 try
                 {
                     _userSkillLevelService.Update(userSkillLevel);
-                    return Ok();
+                    return Ok(userSkillLevel);
                 }
                 catch (Exception ex)
                 {

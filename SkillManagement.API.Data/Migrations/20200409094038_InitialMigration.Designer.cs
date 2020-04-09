@@ -6,12 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkillManagement.API.Data.Repositories;
 
-
-namespace SkillManagement.API.Migrations
+namespace SkillManagement.API.Data.Migrations
 {
     [DbContext(typeof(SkillContext))]
-    [Migration("20200403034701_SkillMgmt")]
-    partial class SkillMgmt
+    [Migration("20200409094038_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +20,7 @@ namespace SkillManagement.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SkillManagement.API.Models.Level", b =>
+            modelBuilder.Entity("SkillManagement.API.Core.Models.Level", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +52,7 @@ namespace SkillManagement.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkillManagement.API.Models.Skill", b =>
+            modelBuilder.Entity("SkillManagement.API.Core.Models.Skill", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +84,7 @@ namespace SkillManagement.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkillManagement.API.Models.User", b =>
+            modelBuilder.Entity("SkillManagement.API.Core.Models.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,50 +122,58 @@ namespace SkillManagement.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkillManagement.API.Models.UserSkillLevel", b =>
+            modelBuilder.Entity("SkillManagement.API.Core.Models.UserSkillLevel", b =>
                 {
-                    b.Property<long>("UserId");
-
-                    b.Property<long>("SkillId");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("LevelId");
 
-                    b.HasKey("UserId", "SkillId", "LevelId");
+                    b.Property<long>("SkillId");
+
+                    b.Property<long>("UserId");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("LevelId");
 
                     b.HasIndex("SkillId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserSkillLevel");
 
                     b.HasData(
                         new
                         {
-                            UserId = 1L,
+                            Id = 1L,
+                            LevelId = 1L,
                             SkillId = 1L,
-                            LevelId = 1L
+                            UserId = 1L
                         },
                         new
                         {
-                            UserId = 1L,
+                            Id = 2L,
+                            LevelId = 2L,
                             SkillId = 2L,
-                            LevelId = 2L
+                            UserId = 1L
                         });
                 });
 
-            modelBuilder.Entity("SkillManagement.API.Models.UserSkillLevel", b =>
+            modelBuilder.Entity("SkillManagement.API.Core.Models.UserSkillLevel", b =>
                 {
-                    b.HasOne("SkillManagement.API.Models.Level", "Level")
+                    b.HasOne("SkillManagement.API.Core.Models.Level", "Level")
                         .WithMany("UserSkillLevel")
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SkillManagement.API.Models.Skill", "Skill")
+                    b.HasOne("SkillManagement.API.Core.Models.Skill", "Skill")
                         .WithMany("UserSkillLevel")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SkillManagement.API.Models.User", "User")
+                    b.HasOne("SkillManagement.API.Core.Models.User", "User")
                         .WithMany("UserSkillLevel")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

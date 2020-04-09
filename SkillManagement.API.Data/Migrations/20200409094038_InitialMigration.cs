@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SkillManagement.API.Migrations
+namespace SkillManagement.API.Data.Migrations
 {
-    public partial class SkillMgmt : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,13 +54,15 @@ namespace SkillManagement.API.Migrations
                 name: "UserSkillLevel",
                 columns: table => new
                 {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<long>(nullable: false),
                     SkillId = table.Column<long>(nullable: false),
                     LevelId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSkillLevel", x => new { x.UserId, x.SkillId, x.LevelId });
+                    table.PrimaryKey("PK_UserSkillLevel", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserSkillLevel_Levels_LevelId",
                         column: x => x.LevelId,
@@ -110,13 +112,13 @@ namespace SkillManagement.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "UserSkillLevel",
-                columns: new[] { "UserId", "SkillId", "LevelId" },
-                values: new object[] { 1L, 1L, 1L });
+                columns: new[] { "Id", "LevelId", "SkillId", "UserId" },
+                values: new object[] { 1L, 1L, 1L, 1L });
 
             migrationBuilder.InsertData(
                 table: "UserSkillLevel",
-                columns: new[] { "UserId", "SkillId", "LevelId" },
-                values: new object[] { 1L, 2L, 2L });
+                columns: new[] { "Id", "LevelId", "SkillId", "UserId" },
+                values: new object[] { 2L, 2L, 2L, 1L });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSkillLevel_LevelId",
@@ -127,6 +129,11 @@ namespace SkillManagement.API.Migrations
                 name: "IX_UserSkillLevel_SkillId",
                 table: "UserSkillLevel",
                 column: "SkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSkillLevel_UserId",
+                table: "UserSkillLevel",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

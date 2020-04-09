@@ -41,10 +41,18 @@ namespace SkillManagement.API.Services
             return userSkillLevels;
         }
 
+        // updates the level as per user id and level id
+
         public void Update(UserSkillLevel entity)
         {
-            _unitOfWork.UserSkillLevelRepository.Update(entity);
+            var userSkillLevel = _unitOfWork.UserSkillLevelRepository.GetAll().Where(x => x.UserId == entity.UserId && x.SkillId == entity.SkillId).FirstOrDefault();
+            entity.Id = userSkillLevel.Id;
+            userSkillLevel.LevelId = entity.LevelId;
+
+            _unitOfWork.UserSkillLevelRepository.Update(userSkillLevel);
             _unitOfWork.Save();
         }
+
+        
     }
 }

@@ -11,6 +11,6 @@ namespace SkillManagement.API.Core.Services
         IEnumerable<UserSkillLevel> GetByUserId(long id);
         void Update(UserSkillLevel entity);
         void Add(UserSkillLevel entity);
-        void DeleteByUserId(long id);
+        void DeleteByUserId(long id);        
     }
 }
