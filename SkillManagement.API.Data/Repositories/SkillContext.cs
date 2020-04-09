@@ -50,45 +50,12 @@ namespace SkillManagement.API.Data.Repositories
             builder.Entity<UserSkillLevel>().HasOne<Skill>(p => p.Skill).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.SkillId);
             builder.Entity<UserSkillLevel>().HasOne<Level>(p => p.Level).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.LevelId);
 
-            //var allEntities = builder.Model.GetEntityTypes();
+         
 
-            //foreach (var entity in allEntities)
-            //{
-            //    entity.AddProperty("CreatedDate", typeof(DateTime));
-            //    entity.AddProperty("UpdatedDate", typeof(DateTime));
-            //}
-
-            builder.Entity<Level>().HasData(new Level { Id = 1, LevelName = "1", Description = "Low" },
-            new Level { Id = 2, LevelName = "2", Description = "Medium" });
-
-            builder.Entity<User>().HasData(new User { Id = 1, FirstName = "John", LastName = "Dove", EmailId = "JDove@gmail.com" },
-            new User { Id = 2, FirstName = "John1", LastName = "Dove1", EmailId = "J1Dove1@gmail.com" });
-
-            builder.Entity<Skill>().HasData(new Skill { Id = 1, SkillName = ".Net core", Description = ".Net" },
-            new Skill { Id = 2, SkillName = "Asp.Net core", Description = ".Net" });
-
-
-            builder.Entity<UserSkillLevel>().HasData(new UserSkillLevel { Id = 1, UserId = 1, SkillId = 1, LevelId = 1 },
-            new UserSkillLevel { Id = 2,UserId = 1, SkillId = 2, LevelId = 2 });
+            
         }
 
-        public override int SaveChanges()
-        {
-            //var changedEntities = ChangeTracker.Entries().Where(changeteacker => changeteacker.State == EntityState
-            //.Added || changeteacker.State == EntityState.Modified);
-
-            //foreach (var changedEntity in changedEntities)
-            //{
-            //    changedEntity.Property("UpdatedDate").CurrentValue = DateTime.Now;
-
-            //    if (changedEntity.State == EntityState.Added)
-            //    {
-            //        changedEntity.Property("CreatedDate").CurrentValue = DateTime.Now;
-            //    }
-            //}
-
-            return base.SaveChanges();
-        }
+       
     }
 
 }
