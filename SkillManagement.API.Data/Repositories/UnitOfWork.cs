@@ -14,7 +14,8 @@ namespace SkillManagement.API.Data.Repositories
         private IGenericRepository<User> _userRepository;
         private IGenericRepository<Skill> _skillRepository;
         private IGenericRepository<Level> _levelRepository;
-        private IGenericRepository<UserSkillLevel> _userSkillLevelRepository;
+        //private IGenericRepository<UserSkillLevel> _userSkillLevelRepository;
+        private IUserSkillLevelRepository _userSkillLevelRepository;
         public UnitOfWork(SkillContext context)
         {
             _context = context;
@@ -35,10 +36,12 @@ namespace SkillManagement.API.Data.Repositories
             get { return _levelRepository ?? (_levelRepository = new GenericRepository<Level>(_context)); }
         }
 
-        public IGenericRepository<UserSkillLevel> UserSkillLevelRepository
+        public IUserSkillLevelRepository UserSkillLevelRepository
         {
-            get { return _userSkillLevelRepository ?? (_userSkillLevelRepository = new GenericRepository<UserSkillLevel>(_context)); }
+            get { return _userSkillLevelRepository ?? (_userSkillLevelRepository = new UserSkillLevelRepository(_context)); }
         }
+
+        
 
         public void Save()
         {

@@ -10,7 +10,7 @@ namespace SkillManagement.API.Core.Repositories
         void Update(TEntity entity);
         void Delete(long id);
 
-        void Delete(IEnumerable<TEntity> entities);
+        
 
 
     }

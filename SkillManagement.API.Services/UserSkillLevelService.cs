@@ -15,33 +15,30 @@ namespace SkillManagement.API.Services
 
         }
 
+        public IEnumerable<UserSkillLevel> GetAll()
+        {
+            var userSkillLevels = _unitOfWork.UserSkillLevelRepository.GetAll();
+            return userSkillLevels;
+        }
+        public IEnumerable<UserSkillLevel> Get(long id)
+        {
+            var userSkillLevels = _unitOfWork.UserSkillLevelRepository.GetAll().Where(m => m.UserId == id);
+            return userSkillLevels;
+        }
+        public IEnumerable<UserSkillLevel> GetByUserId(long userId)
+        {
+            var userSkillLevels = _unitOfWork.UserSkillLevelRepository.GetByUserId(userId);
+            return userSkillLevels;
+        }
+
         public void Add(UserSkillLevel entity)
         {
             _unitOfWork.UserSkillLevelRepository.Add(entity);
             _unitOfWork.Save();
         }
 
-        public void DeleteByUserId(long id)
-        {
-            var usersToDelete = _unitOfWork.UserSkillLevelRepository.GetAll().Where(x => x.UserId == id);
 
-            _unitOfWork.UserSkillLevelRepository.Delete(usersToDelete);
-            _unitOfWork.Save();
-        }
 
-        public IEnumerable<UserSkillLevel> GetAll()
-        {
-            var userSkillLevels = _unitOfWork.UserSkillLevelRepository.GetAll();
-            return userSkillLevels;
-        }
-
-        public IEnumerable<UserSkillLevel> GetByUserId(long id)
-        {
-            var userSkillLevels = _unitOfWork.UserSkillLevelRepository.GetAll().Where(m => m.UserId == id);
-            return userSkillLevels;
-        }
-
-        // updates the level as per user id and level id
 
         public void Update(UserSkillLevel entity)
         {
@@ -53,6 +50,18 @@ namespace SkillManagement.API.Services
             _unitOfWork.Save();
         }
 
-        
+        public void Delete(long id)
+        {
+            _unitOfWork.UserSkillLevelRepository.Delete(id);
+            _unitOfWork.Save();
+        }
+
+        public void DeleteByUserId(long id)
+        {
+            _unitOfWork.UserSkillLevelRepository.DeleteByUserId(id);
+            _unitOfWork.Save();
+        }
+
+
     }
 }

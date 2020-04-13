@@ -7,7 +7,7 @@ using SkillManagement.API.Core.Services;
 
 namespace SkillManagement.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserSkillLevelController : ControllerBase
     {
@@ -133,18 +133,42 @@ namespace SkillManagement.API.Controllers
         }
 
         // DELETE: api/userskilllevel/5
+
+        
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult DeleteById(long id)
         {
             if (id == 0)
             {
-                _logger.LogInfo("id paaram is 0");
+                _logger.LogInfo("id param is 0");
                 return BadRequest();
             }
-
             try
             {
-                _userSkillLevelService.DeleteByUserId(id);
+                _userSkillLevelService.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest();
+            }
+        }
+
+        // DELETE: api/userskilllevel/5
+        // by user is
+        [HttpDelete("{userId}")]
+        
+        public IActionResult DeleteByUserId(long userId)
+        {
+            if (userId == 0)
+            {
+                _logger.LogInfo("userId is 0 or null");
+                return BadRequest();
+            }
+            try
+            {
+                _userSkillLevelService.DeleteByUserId(userId);
                 return Ok();
             }
             catch (Exception ex)

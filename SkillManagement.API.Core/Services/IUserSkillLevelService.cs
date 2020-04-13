@@ -7,10 +7,13 @@ namespace SkillManagement.API.Core.Services
     {
         IEnumerable<UserSkillLevel> GetAll();
 
-
-        IEnumerable<UserSkillLevel> GetByUserId(long id);
+        IEnumerable<UserSkillLevel> Get(long id);
         void Update(UserSkillLevel entity);
         void Add(UserSkillLevel entity);
-        void DeleteByUserId(long id);        
+        void Delete(long id);
+
+        void DeleteByUserId(long userId);
+
+        IEnumerable<UserSkillLevel> GetByUserId(long userId);
     }
 }

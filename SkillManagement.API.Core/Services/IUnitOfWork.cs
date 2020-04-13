@@ -9,8 +9,8 @@ namespace SkillManagement.API.Core.Services
         IGenericRepository<Skill> SkillRepository { get; }
 
         IGenericRepository<Level> LevelRepository { get; }
-
-        IGenericRepository<UserSkillLevel> UserSkillLevelRepository { get; }
+                
+        IUserSkillLevelRepository UserSkillLevelRepository { get; }
         void Save();
     }
 }

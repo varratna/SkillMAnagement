@@ -28,9 +28,9 @@ namespace SkillManagement.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            try
-            {
-                //throw new Exception("Exception while fetching all the user from the storage.");
+            //try
+            //{
+                throw new Exception("Exception while fetching all the user from the storage.");
 
                 _logger.LogInfo("In Get");
 
@@ -45,12 +45,12 @@ namespace SkillManagement.API.Controllers
                 }
 
                 return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex.Message);
+            //    return BadRequest();
+            //}
 
         }
 

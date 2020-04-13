@@ -64,7 +64,7 @@ namespace SkillManagement.API.Controllers
                     _logger.LogInfo("level not present with id" + id);
                     return NotFound("The Level record couldn't be found.");
                 }
-
+                
                 return Ok(level);
             }
             catch (Exception ex)
@@ -85,6 +85,7 @@ namespace SkillManagement.API.Controllers
 
                     if (level.Id > 0)
                     {
+                        //return CreatedAtAction("Get", new { id = level.Id }, level);
                         return Ok(level);
                     }
                     else

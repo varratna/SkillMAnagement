@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
+using SkillManagement.API.Core.Repositories;
 using SkillManagement.API.Core.Services;
 using SkillManagement.API.Data.Repositories;
 using SkillManagement.API.Extensions;
@@ -20,10 +21,7 @@ namespace SkillManagement.API
     {
         public Startup(IConfiguration configuration)
         {
-
-
             LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
-
             Configuration = configuration;
         }
 
@@ -42,6 +40,8 @@ namespace SkillManagement.API
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserSkillLevelRepository, UserSkillLevelRepository>();
+
             services.AddSingleton<ILoggingService, LogService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISkillService, SkillService>();
@@ -62,6 +62,7 @@ namespace SkillManagement.API
                 app.UseHsts();
             }
             app.ConfigureExceptionHandler(logger);
+            
             app.UseHttpsRedirection();
             app.UseMvc();
         }

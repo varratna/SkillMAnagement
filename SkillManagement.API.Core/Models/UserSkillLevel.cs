@@ -19,5 +19,7 @@ namespace SkillManagement.API.Core.Models
         public long LevelId { get; set; }
         public virtual Level Level { get; set; }
 
+        
+
     }
 }

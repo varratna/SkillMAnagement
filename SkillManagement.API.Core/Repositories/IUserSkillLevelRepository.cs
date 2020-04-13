@@ -5,7 +5,9 @@ using SkillManagement.API.Core.Models;
 
 namespace SkillManagement.API.Core.Repositories
 {
-    interface IUserSkillLevelRepository : IGenericRepository<UserSkillLevel>
+    public interface IUserSkillLevelRepository : IGenericRepository<UserSkillLevel>
     {
+        IEnumerable<UserSkillLevel> GetByUserId(long userId);
+        void DeleteByUserId(long userId);
     }
 }
