@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LoggingService;
 using Microsoft.AspNetCore.Mvc;
 using SkillManagement.API.Core.Models;
 using SkillManagement.API.Core.Services;
+using SkillManagement.API.ViewModel;
 
 namespace SkillManagement.API.Controllers
 {
@@ -38,7 +40,7 @@ namespace SkillManagement.API.Controllers
                     _logger.LogInfo("User Skill Level Fetched");
                 }
 
-                return Ok(userskillLevel);
+                return Ok(GetUSerSkillLevelViewModel(userskillLevel));
             }
             catch (Exception ex)
             {
@@ -58,15 +60,17 @@ namespace SkillManagement.API.Controllers
                     return BadRequest();
                 }
 
-                var userSkillLevel = _userSkillLevelService.GetByUserId(userid);
+                var userSkillLevels = _userSkillLevelService.GetByUserId(userid);
 
-                if (userSkillLevel == null)
+                if (userSkillLevels == null)
                 {
                     _logger.LogInfo("userSkillLevel not present with user id" + userid);
                     return NotFound("The userSkillLevel record couldn't be found.");
                 }
 
-                return Ok(userSkillLevel);
+
+
+                return Ok(GetUSerSkillLevelViewModel(userSkillLevels));
             }
             catch (Exception ex)
             {
@@ -84,7 +88,7 @@ namespace SkillManagement.API.Controllers
                 try
                 {
                     var userSkillLEvelEXists = _userSkillLevelService.GetAll().Where(m => m.UserId == userSkillLevel.UserId &&
-                    m.SkillId == userSkillLevel.SkillId ).FirstOrDefault();
+                    m.SkillId == userSkillLevel.SkillId).FirstOrDefault();
                     if (userSkillLEvelEXists != null)
                     {
                         return BadRequest("Skill Level for user already exists");
@@ -134,7 +138,7 @@ namespace SkillManagement.API.Controllers
 
         // DELETE: api/userskilllevel/5
 
-        
+
         [HttpDelete("{id}")]
         public IActionResult DeleteById(long id)
         {
@@ -158,7 +162,7 @@ namespace SkillManagement.API.Controllers
         // DELETE: api/userskilllevel/5
         // by user is
         [HttpDelete("{userId}")]
-        
+
         public IActionResult DeleteByUserId(long userId)
         {
             if (userId == 0)
@@ -176,6 +180,34 @@ namespace SkillManagement.API.Controllers
                 _logger.LogError(ex.Message);
                 return BadRequest();
             }
+        }
+
+        private List<UserSkillLevelViewModel> GetUSerSkillLevelViewModel(IEnumerable<UserSkillLevel> userSkillLevels)
+        {
+            List<UserSkillLevelViewModel> lstUserSkillLevels = new List<UserSkillLevelViewModel>();
+            foreach (var userSkillLevel in userSkillLevels)
+            {
+                UserSkillLevelViewModel userSkillLevelViewModel = new UserSkillLevelViewModel();
+                userSkillLevelViewModel.Id = userSkillLevel.Id;
+
+                userSkillLevelViewModel.UserId = userSkillLevel.UserId;
+                userSkillLevelViewModel.FirstName = userSkillLevel.User?.FirstName;
+                userSkillLevelViewModel.LastName = userSkillLevel.User?.LastName;
+                userSkillLevelViewModel.EmailId = userSkillLevel.User?.EmailId; ;
+
+                userSkillLevelViewModel.SkillId = userSkillLevel.SkillId;
+                userSkillLevelViewModel.SkillName = userSkillLevel.Skill?.SkillName;
+                userSkillLevelViewModel.SkillDescription = userSkillLevel.Skill?.Description;
+
+
+
+                userSkillLevelViewModel.LevelId = userSkillLevel.LevelId;
+                userSkillLevelViewModel.LevelName = userSkillLevel.Level?.LevelName;
+                userSkillLevelViewModel.LevelDescription = userSkillLevel.Level?.Description;
+
+                lstUserSkillLevels.Add(userSkillLevelViewModel);
+            }
+            return lstUserSkillLevels;
         }
     }
 }

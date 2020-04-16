@@ -39,6 +39,10 @@ namespace SkillManagement.API
                 //options.UseInMemoryDatabase("supermarket-api-in-memory");
             });
 
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                             .AllowAnyMethod()
+                                                              .AllowAnyHeader()));
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserSkillLevelRepository, UserSkillLevelRepository>();
 
@@ -62,7 +66,7 @@ namespace SkillManagement.API
                 app.UseHsts();
             }
             app.ConfigureExceptionHandler(logger);
-            
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

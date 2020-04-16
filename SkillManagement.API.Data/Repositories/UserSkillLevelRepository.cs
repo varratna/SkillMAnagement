@@ -18,6 +18,11 @@ namespace SkillManagement.API.Data.Repositories
 
         }
 
+        public new IEnumerable<UserSkillLevel> GetAll()
+        {
+            return context.UserSkillLevels.Include(a => a.User).ThenInclude(a => a.UserSkillLevel).Include(a => a.Skill).ThenInclude(a => a.UserSkillLevel).Include(a => a.Level).ToListAsync().Result;
+        }
+
         public void DeleteByUserId(long userId)
         {
             var entitiesToDelete = context.UserSkillLevels.ToListAsync().Result.FindAll(x => x.UserId == userId);
