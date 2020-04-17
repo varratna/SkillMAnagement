@@ -39,7 +39,10 @@ namespace SkillManagement.API.Controllers
                 }
                 else
                 {
-                    _logger.LogInfo("Skills Fetched");
+                    _logger.LogInfo(skills.Count().ToString() + "Skills Fetched");
+                    
+
+
                 }
 
                 return Ok(skills);
