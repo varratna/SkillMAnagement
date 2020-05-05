@@ -9,5 +9,7 @@ namespace SkillManagement.API.Core.Repositories
     {
         IEnumerable<UserSkillLevel> GetByUserId(long userId);
         void DeleteByUserId(long userId);
+
+        void Update(IEnumerable<UserSkillLevel> entities);
     }
 }

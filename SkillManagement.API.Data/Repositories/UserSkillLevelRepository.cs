@@ -35,5 +35,10 @@ namespace SkillManagement.API.Data.Repositories
             var users = context.UserSkillLevels.Include(a=>a.User).ThenInclude(a=>a.UserSkillLevel).Include(a=>a.Skill).ThenInclude(a=>a.UserSkillLevel).Include(a=>a.Level).ToListAsync().Result.FindAll(x => x.UserId == userId);
             return users;
         }
+
+        public void Update(IEnumerable<UserSkillLevel> entities)
+        {
+            context.UserSkillLevels.UpdateRange(entities);
+        }
     }
 }

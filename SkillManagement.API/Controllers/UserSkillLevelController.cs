@@ -91,7 +91,7 @@ namespace SkillManagement.API.Controllers
                     m.SkillId == userSkillLevel.SkillId).FirstOrDefault();
                     if (userSkillLEvelEXists != null)
                     {
-                        return BadRequest("Skill Level for user already exists");
+                        return BadRequest("Skill for user already exists");
                     }
 
                     _userSkillLevelService.Add(userSkillLevel);
@@ -117,7 +117,7 @@ namespace SkillManagement.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] UserSkillLevel userSkillLevel)
+        public IActionResult Put([FromBody] UserSkillLevel[] userSkillLevel)
         {
             if (ModelState.IsValid)
             {
@@ -125,6 +125,27 @@ namespace SkillManagement.API.Controllers
                 {
                     _userSkillLevelService.Update(userSkillLevel);
                     return Ok(userSkillLevel);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest();
+                }
+            }
+
+            return BadRequest();
+        }
+
+
+        [HttpPut("{userSkillLevels}")]
+        public IActionResult Put([FromBody] List<UserSkillLevel> userSkillLevels)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _userSkillLevelService.Update(userSkillLevels);
+                    return Ok(userSkillLevels);
                 }
                 catch (Exception ex)
                 {

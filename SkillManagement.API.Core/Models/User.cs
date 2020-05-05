@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkillManagement.API.Core.Models
 {
-    public class User
+    public class User:BaseEntityClass
     {
         public long Id { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "First Name cannot be empty")]
@@ -16,5 +17,7 @@ namespace SkillManagement.API.Core.Models
         public string EmailId { get; set; }
 
         public IList<UserSkillLevel> UserSkillLevel { get; set; }
+
+        
     }
 }

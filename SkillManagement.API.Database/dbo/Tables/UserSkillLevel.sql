@@ -4,6 +4,7 @@
     [SkillId] BIGINT NOT NULL,
     [LevelId] BIGINT NOT NULL,
     [CreatedDate] DATETIME NULL, 
+    [UpdatedDate] DATETIME NULL, 
     CONSTRAINT [PK_UserSkillLevel] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_UserSkillLevel_Levels_LevelId] FOREIGN KEY ([LevelId]) REFERENCES [dbo].[Levels] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_UserSkillLevel_Skills_SkillId] FOREIGN KEY ([SkillId]) REFERENCES [dbo].[Skills] ([Id]) ON DELETE CASCADE,

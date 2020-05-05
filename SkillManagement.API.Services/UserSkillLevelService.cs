@@ -38,7 +38,12 @@ namespace SkillManagement.API.Services
         }
 
 
+        public void Update(IEnumerable<UserSkillLevel> userSkillLevels)
+        {
+            _unitOfWork.UserSkillLevelRepository.Update(userSkillLevels);
+            _unitOfWork.Save();
 
+        }
 
         public void Update(UserSkillLevel entity)
         {

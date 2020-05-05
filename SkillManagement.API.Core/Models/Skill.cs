@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SkillManagement.API.Core.Models
 {
-    public class Skill
+    public class Skill:BaseEntityClass
     {
         public long Id { get; set; }
         [Required]

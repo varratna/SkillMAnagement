@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LoggingService;
 using Microsoft.AspNetCore.Mvc;
 using SkillManagement.API.Core.Models;
 using SkillManagement.API.Core.Services;
+using SkillManagement.API.ViewModel;
 
 namespace SkillManagement.API.Controllers
 {
@@ -44,7 +46,7 @@ namespace SkillManagement.API.Controllers
                     _logger.LogInfo("Users Fetched");
                 }
 
-                return Ok(users);
+                return Ok(GetUserViewModel(users));
             }
             catch (Exception ex)
             {
@@ -180,6 +182,25 @@ namespace SkillManagement.API.Controllers
 
 
 
+        }
+
+        private List<UserViewModel> GetUserViewModel(IEnumerable<User> users)
+        {
+            List<UserViewModel> lstUsers = new List<UserViewModel>();
+            foreach (var user in users)
+            {
+                UserViewModel uservm = new UserViewModel();
+                uservm.Id = user.Id;
+                uservm.FullName = user.FirstName + " " + user.LastName;
+                uservm.FirstName = user.FirstName;
+                uservm.LastName = user.LastName;
+                uservm.EmailId = user.EmailId; ;
+
+                
+
+                lstUsers.Add(uservm);
+            }
+            return lstUsers;
         }
 
     }

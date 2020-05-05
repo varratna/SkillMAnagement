@@ -30,6 +30,7 @@ namespace SkillManagement.API.Data.Repositories
             builder.Entity<User>().Property(p => p.FirstName).IsRequired().HasMaxLength(100);
             builder.Entity<User>().Property(p => p.LastName).HasMaxLength(100);
             builder.Entity<User>().Property(p => p.EmailId).HasMaxLength(100);
+            
 
             builder.Entity<Skill>().ToTable("Skills");
             builder.Entity<Skill>().HasKey(p => p.Id);
@@ -49,13 +50,32 @@ namespace SkillManagement.API.Data.Repositories
             builder.Entity<UserSkillLevel>().HasOne<User>(p => p.User).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.UserId);
             builder.Entity<UserSkillLevel>().HasOne<Skill>(p => p.Skill).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.SkillId);
             builder.Entity<UserSkillLevel>().HasOne<Level>(p => p.Level).WithMany(p => p.UserSkillLevel).HasForeignKey(p => p.LevelId);
-
-         
-
-            
         }
 
-       
+
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is BaseEntityClass && (
+                        e.State == EntityState.Added
+                        || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((BaseEntityClass)entityEntry.Entity).UpdatedDate = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                {
+                    ((BaseEntityClass)entityEntry.Entity).CreatedDate = DateTime.Now;
+                }
+            }
+
+            return base.SaveChanges();
+        }
+
+
+
     }
 
 }
