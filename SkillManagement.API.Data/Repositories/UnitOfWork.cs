@@ -11,19 +11,31 @@ namespace SkillManagement.API.Data.Repositories
     public class UnitOfWork : IUnitOfWork, System.IDisposable
     {
         private readonly SkillContext _context;
-        private IGenericRepository<User> _userRepository;
+        private IEmployeeRepository _employeeeRepository;
         private IGenericRepository<Skill> _skillRepository;
         private IGenericRepository<Level> _levelRepository;
+        //private IUserRepository _userRepository;
+        private IRoleRepository _roleRepository;
         //private IGenericRepository<UserSkillLevel> _userSkillLevelRepository;
-        private IUserSkillLevelRepository _userSkillLevelRepository;
+        private IEmployeeSkillLevelRepository _employeeSkillLevelRepository;
         public UnitOfWork(SkillContext context)
         {
             _context = context;
         }
 
-        public IGenericRepository<User> UserRepository
+        public IRoleRepository RoleRepository
         {
-            get { return _userRepository ?? (_userRepository = new GenericRepository<User>(_context)); }
+            
+            get { return _roleRepository ?? (_roleRepository = new RoleRepository(_context)); }
+        }
+        //public IUserRepository UserRepository
+        //{
+        //    //get { return _userRepository ?? (_userRepository = new GenericRepository<User>(_context)); }
+        //    get { return _userRepository ?? (_userRepository = new UserRepository(_context)); }
+        //}
+        public IEmployeeRepository EmployeeRepository
+        {
+            get { return _employeeeRepository ?? (_employeeeRepository = new EmployeeRepository(_context)); }
         }
 
         public IGenericRepository<Skill> SkillRepository
@@ -36,12 +48,12 @@ namespace SkillManagement.API.Data.Repositories
             get { return _levelRepository ?? (_levelRepository = new GenericRepository<Level>(_context)); }
         }
 
-        public IUserSkillLevelRepository UserSkillLevelRepository
+        public IEmployeeSkillLevelRepository EmployeeSkillLevelRepository
         {
-            get { return _userSkillLevelRepository ?? (_userSkillLevelRepository = new UserSkillLevelRepository(_context)); }
+            get { return _employeeSkillLevelRepository ?? (_employeeSkillLevelRepository = new EmployeeSkillLevelRepository(_context)); }
         }
 
-        
+
 
         public void Save()
         {

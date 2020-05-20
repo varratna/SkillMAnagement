@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Roles]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
+    [Role] NVARCHAR(MAX) NOT NULL, 
+    [CreatedDate] DATETIME NULL, 
+    [UpdatedDate] DATETIME NULL
+)

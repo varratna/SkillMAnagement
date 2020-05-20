@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\UsersController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="bin\Debug\netcoreapp2.2\SkillManagement.API.deps.json" />
     <Content Include="bin\Debug\netcoreapp2.2\SkillManagement.API.runtimeconfig.dev.json" />
     <Content Include="bin\Debug\netcoreapp2.2\SkillManagement.API.runtimeconfig.json" />

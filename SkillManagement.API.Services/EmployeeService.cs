@@ -13,54 +13,56 @@ using SkillManagement.API.Core.Services;
 
 namespace SkillManagement.API.Services
 {
-    public class UserService : IUserService
+    public class EmployeeService : IEmployeeService
     {
         private IUnitOfWork _unitOfWork;
         private readonly ApplicationSettings _appSettings;
 
-        public UserService(IUnitOfWork unitOfWork,IOptions<ApplicationSettings> appSettings)
+        public EmployeeService(IUnitOfWork unitOfWork, IOptions<ApplicationSettings> appSettings)
         {
             _unitOfWork = unitOfWork;
             _appSettings = appSettings.Value;
 
         }
-        public void Add(User entity)
+
+        public void Add(Employee entity)
         {
+
             entity.Password = EncodePasswordToBase64(entity.Password);
-            _unitOfWork.UserRepository.Add(entity);
+            _unitOfWork.EmployeeRepository.Add(entity);
             _unitOfWork.Save();
         }
 
         public void Delete(long id)
         {
-            _unitOfWork.UserRepository.Delete(id);
+            _unitOfWork.EmployeeRepository.Delete(id);
             _unitOfWork.Save();
         }
 
-        public User Get(long id)
+        public Employee Get(long id)
         {
-            var user = _unitOfWork.UserRepository.Get(id);
+            var user = _unitOfWork.EmployeeRepository.Get(id);
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<Employee> GetAll()
         {
-            var users = _unitOfWork.UserRepository.GetAll();
+            var users = _unitOfWork.EmployeeRepository.GetAll();
             return users;
-        }   
-
-        public void Update(User entity)
-        {
-            var user = _unitOfWork.UserRepository.Get(entity.Id);
-            user.UserName = entity.UserName;
-            user.Email = entity.Email;
-            user.Password = EncodePasswordToBase64(entity.Password);
-
-            _unitOfWork.UserRepository.Update(user);
-            _unitOfWork.Save();
         }
 
+        public void Update(Employee entity)
+        {
+            var user = _unitOfWork.EmployeeRepository.Get(entity.Id);
+            user.FirstName = entity.FirstName;
+            user.LastName = entity.LastName;
+            user.EmailId = entity.EmailId;
+            user.UserName = entity.UserName;
+            entity.Password = EncodePasswordToBase64(entity.Password);
 
+            _unitOfWork.EmployeeRepository.Update(user);
+            _unitOfWork.Save();
+        }
 
         public string EncodePasswordToBase64(string password)
         {
@@ -89,30 +91,28 @@ namespace SkillManagement.API.Services
             return result;
         }
 
-        public string Authenticate(string username, string password)//User
+        public Employee Authenticate(string username, string password)//User
         {
-
-            var user = _unitOfWork.UserRepository.GetAll().SingleOrDefault(x => x.UserName == username && DecodePasswordFrom64(x.Password) ==  password);
-                                 
-
+            var employee = _unitOfWork.EmployeeRepository.GetAll().SingleOrDefault(x => x.UserName == username && DecodePasswordFrom64(x.Password) == password);
+            
             // return null if user not found
-            if (user == null)
+            if (employee == null)
                 return null;
 
-            var userRoleIds = user.User_Roles.Select(r => (long)r.RoleId).ToList();
-            var roles = _unitOfWork.RoleRepository.GetRoles(userRoleIds.ToArray());//.Where(r => userRoleIds.Contains(r.Id));
+            var employeeRoleIds = employee.EmployeeRoles.Select(r => (long)r.RoleId).ToList();
+            var roles = _unitOfWork.RoleRepository.GetRoles(employeeRoleIds.ToArray());//.Where(r => userRoleIds.Contains(r.Id));
 
 
-            var role = user.User_Roles.FirstOrDefault().Roles;
+            var role = employee.EmployeeRoles.FirstOrDefault().Roles;
             // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JWT_Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, role.Id.ToString()) 
+                    new Claim(ClaimTypes.Name, employee.Id.ToString()),
+                    new Claim(ClaimTypes.Role, role.Id.ToString())
                 }),
                 //Expires = DateTime.UtcNow.AddDays(7),
                 Expires = DateTime.UtcNow.AddDays(1),
@@ -121,38 +121,17 @@ namespace SkillManagement.API.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenToBeSent = tokenHandler.WriteToken(token);
             //user.Token = tokenHandler.WriteToken(token);
-
             // remove password before returning
             //user.Password = null;
 
-            return tokenToBeSent;
+            employee.Token = tokenToBeSent.ToString();
+            employee.Password = null;
+
+            return employee ;
+            //return tokenToBeSent;
         }
-
-
-
-        [HttpGet]
-        [Authorize (Roles = "Admin")]
-        [Route("ForAdmin") ]
-        public string GetForAdmin()
-        {
-            return "Web method for admin ";
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "User")]
-        [Route("ForUser")]
-        public string GetForUser()
-        {
-            return "Web method for user";
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin,User")]
-        [Route("ForAdminCutomer")]
-        public string GetForAdminCutomer()
-        {
-            return "Web method for AdminCutomer ";
-        }
-
     }
+
+    
 }
+

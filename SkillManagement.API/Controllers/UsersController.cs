@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using LoggingService;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkillManagement.API.Core.Models;
 using SkillManagement.API.Core.Services;
@@ -11,14 +15,12 @@ namespace SkillManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
-
         private IUserService _userService;
         public ILoggingService _logger;
 
-
-        public UserController(IUserService userService, ILoggingService logger)
+        public UsersController(IUserService userService, ILoggingService logger)
         {
 
             _userService = userService;
@@ -26,7 +28,6 @@ namespace SkillManagement.API.Controllers
 
 
         }
-
         [HttpGet]
         public IActionResult Get()
         {
@@ -39,7 +40,7 @@ namespace SkillManagement.API.Controllers
                 var users = _userService.GetAll();
                 if (users == null)
                 {
-                    _logger.LogInfo("No Users Fetched");
+                    _logger.LogInfo("No User Fetched");
                 }
                 else
                 {
@@ -71,7 +72,7 @@ namespace SkillManagement.API.Controllers
 
                 if (user == null)
                 {
-                    _logger.LogInfo("user not present with id" + id);
+                    _logger.LogInfo("User not present with id" + id);
                     return NotFound("The User record couldn't be found.");
                 }
 
@@ -85,7 +86,7 @@ namespace SkillManagement.API.Controllers
 
         }
 
-        // POST: api/user
+        // POST: api/employee
         [HttpPost]
         public IActionResult Post([FromBody] User user)
         {
@@ -93,12 +94,14 @@ namespace SkillManagement.API.Controllers
             {
                 try
                 {
-                    bool IsEmailPresent = IsEmailIdPresent(user.EmailId);
+                    
+                    bool IsEmailPresent = IsEmailIdPresent(user.Email);
                     if (IsEmailPresent)
                     {
-                        _logger.LogInfo(user.EmailId + " is already present");
+                        _logger.LogInfo(user.Email + " is already present");
                         return Content("Email already present");
                     }
+                    //user.Password = EncodePasswordToBase64(user.Password);
 
                     _userService.Add(user);
 
@@ -108,7 +111,7 @@ namespace SkillManagement.API.Controllers
                     }
                     else
                     {
-                        _logger.LogInfo("user not saved");
+                        _logger.LogInfo("User not saved");
                         return BadRequest();
                     }
                 }
@@ -124,6 +127,7 @@ namespace SkillManagement.API.Controllers
 
         }
 
+
         [HttpPut]
         public IActionResult Put([FromBody] User user)
         {
@@ -131,6 +135,7 @@ namespace SkillManagement.API.Controllers
             {
                 try
                 {
+                    //user.Password = EncodePasswordToBase64(user.Password);
                     _userService.Update(user);
 
 
@@ -146,7 +151,8 @@ namespace SkillManagement.API.Controllers
             return BadRequest();
         }
 
-        // DELETE: api/user/5
+
+        // DELETE: api/employee/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
@@ -160,8 +166,6 @@ namespace SkillManagement.API.Controllers
             try
             {
                 _userService.Delete(id);
-
-
                 return Ok("User with ID " + id + " deleted.");
             }
             catch (Exception ex)
@@ -172,10 +176,37 @@ namespace SkillManagement.API.Controllers
         }
 
 
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody]User userParam)
+        {
+            var token = _userService.Authenticate(userParam.UserName,  userParam.Password);
+
+            if (token == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(new { token });
+        }
+
+        private List<UserViewModel> GetUserViewModel(IEnumerable<User> users)
+        {
+            List<UserViewModel> lstUsers = new List<UserViewModel>();
+            foreach (var user in users)
+            {
+                UserViewModel userViewModel = new UserViewModel();
+                userViewModel.Id = user.Id;
+                userViewModel.Email = user.Email;
+                userViewModel.UserName = user.UserName;
+                userViewModel.Password = user.Password;
+                lstUsers.Add(userViewModel);
+            }
+            return lstUsers;
+        }
+
         public bool IsEmailIdPresent(string EmailId)
         {
 
-            var emailPresent = _userService.GetAll().Where(m => m.EmailId == EmailId).FirstOrDefault();
+            var emailPresent = _userService.GetAll().Where(m => m.Email == EmailId).FirstOrDefault();
             if (emailPresent != null)
                 return true; //Json("Email already exist", JsonRequestBehavior.AllowGet);
             return false;
@@ -184,24 +215,8 @@ namespace SkillManagement.API.Controllers
 
         }
 
-        private List<UserViewModel> GetUserViewModel(IEnumerable<User> users)
-        {
-            List<UserViewModel> lstUsers = new List<UserViewModel>();
-            foreach (var user in users)
-            {
-                UserViewModel uservm = new UserViewModel();
-                uservm.Id = user.Id;
-                uservm.FullName = user.FirstName + " " + user.LastName;
-                uservm.FirstName = user.FirstName;
-                uservm.LastName = user.LastName;
-                uservm.EmailId = user.EmailId; ;
+        
 
-                
-
-                lstUsers.Add(uservm);
-            }
-            return lstUsers;
-        }
-
+      
     }
 }

@@ -5,12 +5,16 @@ namespace SkillManagement.API.Core.Services
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<User> UserRepository { get; }
+        IEmployeeRepository EmployeeRepository { get; }
         IGenericRepository<Skill> SkillRepository { get; }
 
         IGenericRepository<Level> LevelRepository { get; }
                 
-        IUserSkillLevelRepository UserSkillLevelRepository { get; }
+        IEmployeeSkillLevelRepository EmployeeSkillLevelRepository { get; }
+
+        IRoleRepository RoleRepository { get; }
+
+        //IUserRepository  UserRepository { get; }
         void Save();
     }
 }

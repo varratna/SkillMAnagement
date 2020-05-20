@@ -15,21 +15,21 @@ namespace SkillManagement.API.Tests
     public class SkillManagementAPITests
     {
 
-        List<User> ExpectedUsers;
-        Mock<IGenericRepository<User>> mockUserRepository;
-        UserController userController;
+        List<Employee> ExpectedUsers;
+        Mock<IGenericRepository<Employee>> mockUserRepository;
+        EmployeeController userController;
         Mock<IUnitOfWork> uow;
-        IUserService service;
+        IEmployeeService service;
 
 
         public void InitializeTestData()
         {
             ExpectedUsers = GetUsers();
-            mockUserRepository = new Mock<IGenericRepository<User>>();
+            mockUserRepository = new Mock<IGenericRepository<Employee>>();
             mockUserRepository.Setup(m => m.GetAll()).Returns(ExpectedUsers).Verifiable();
             uow = new Mock<IUnitOfWork>();
-            uow.Setup(m => m.UserRepository).Returns(mockUserRepository.Object);
-            service = new UserService(uow.Object);
+            //uow.Setup(m => m.EmployeeRepository).Returns(mockUserRepository.Object);
+            //service = new EmployeeService(uow.Object,);
 
         }
         [TestMethod]
@@ -69,7 +69,7 @@ namespace SkillManagement.API.Tests
             Assert.AreEqual(4, userCount);
 
             ////Prepare
-            User user = GetNewUser("firat name ", "last name", "email@gmail.com");
+            Employee user = GetNewUser("firat name ", "last name", "email@gmail.com");
             ////Act
             service.Add(user);
 
@@ -83,7 +83,7 @@ namespace SkillManagement.API.Tests
         [TestMethod]
         public void UpdateUser()
         {
-            User user = new User()
+            Employee user = new Employee()
             {
                 Id = 2,
                 FirstName = "N22",//Changed Name
@@ -112,25 +112,25 @@ namespace SkillManagement.API.Tests
         }
 
                           
-        private List<User> GetUsers()
+        private List<Employee> GetUsers()
         {
-            return new List<User>()
+            return new List<Employee>()
             {
-                new User()
+                new Employee()
                 {
                     Id = 1,
                     FirstName = "John",
                     LastName = "Dove",
                      EmailId = "JDove@gmail.com"
                 },
-                new User()
+                new Employee()
                 {
                     Id = 1,
                     FirstName = "John11",
                     LastName = "Dove11",
                      EmailId = "J1Dove11@gmail.com"
                 },
-                new User()
+                new Employee()
                 {
                     Id = 1,
                     FirstName = "John131",
@@ -140,9 +140,9 @@ namespace SkillManagement.API.Tests
             };
         }
 
-        private User GetUser(int id)
+        private Employee GetUser(int id)
         {
-            return new User()
+            return new Employee()
             {
                 Id = 1,
                 FirstName = "John",
@@ -152,9 +152,9 @@ namespace SkillManagement.API.Tests
 
         }
 
-        private User GetNewUser(string fname, string lname, string email)
+        private Employee GetNewUser(string fname, string lname, string email)
         {
-            return new User()
+            return new Employee()
             {
                 FirstName = fname,
                 LastName = lname,

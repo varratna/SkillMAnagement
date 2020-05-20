@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace SkillManagement.API.ViewModel
 {
-    public class UserSkillLevelViewModel
+    public class EmployeeSkillLevelViewModel
     {
         public long Id { get; set; }
 
-        public long UserId { get; set; }
+        public long EmployeeId { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

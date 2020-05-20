@@ -11,6 +11,6 @@ namespace SkillManagement.API.Core.Models
         public string SkillName { get; set; }
         public string Description { get; set; }
 
-        public IList<UserSkillLevel> UserSkillLevel { get; set; }
+        public IList<EmployeeSkillLevel> EmployeeSkillLevel { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using SkillManagement.API.Core.Models;
 
 namespace SkillManagement.API.Core.Services
@@ -10,6 +12,7 @@ namespace SkillManagement.API.Core.Services
         void Update(User entity);
         void Add(User entity);
         void Delete(long id);
-        
+
+        string Authenticate(string username, string password);
     }
 }

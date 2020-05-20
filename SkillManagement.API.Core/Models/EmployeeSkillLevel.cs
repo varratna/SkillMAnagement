@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkillManagement.API.Core.Models
 {
-    public class UserSkillLevel:BaseEntityClass
+    public class EmployeeSkillLevel:BaseEntityClass
     {
         public long Id { get; set; }
         [Required]
 
-        public long UserId { get; set; }
-        public User User { get; set; }
+        public long EmployeeId { get; set; }
+        public Employee Employee { get; set; }
         [Required]
 
         public long SkillId { get; set; }

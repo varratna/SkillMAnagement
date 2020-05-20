@@ -70,8 +70,10 @@
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
     <Build Include="dbo\Tables\Levels.sql" />
     <Build Include="dbo\Tables\Skills.sql" />
-    <Build Include="dbo\Tables\Users.sql" />
-    <Build Include="dbo\Tables\UserSkillLevel.sql" />
+    <Build Include="dbo\Tables\Employees.sql" />
+    <Build Include="dbo\Tables\EmployeesSkillLevel.sql" />
+    <Build Include="dbo\Tables\Roles.sql" />
+    <Build Include="dbo\Tables\EmployeeRoles.sql" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="dbo\Scripts\Script.PreDeployment1.sql" />
